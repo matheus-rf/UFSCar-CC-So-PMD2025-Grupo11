@@ -1,4 +1,4 @@
-# Analise de cancelamentos de voos
+# Análise de cancelamento de voos
 
 **Universidade Federal de São Carlos - UFSCar Sorocaba**
 **Bacharelado em Ciência da Computação**
@@ -56,4 +56,4 @@ Um objetivo operacional crítico seria a análise de performance e confiabilidad
 
 ## 4. Fluxograma Minimundo
 
-> (Inserir aqui o fluxograma do minimundo conforme apresentado no projeto original)
+![Fluxograma Minimundo](images/fluxograma.png)
