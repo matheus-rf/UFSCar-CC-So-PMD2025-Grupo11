@@ -58,3 +58,11 @@ Um objetivo operacional crítico seria a análise de performance e confiabilidad
 
 ![Fluxograma Minimundo](./images/fluxograma.png)
 
+---
+
+## 5. Referências
+
+[https://www.academia.edu/66526198/Assessing\_Interdependencies\_and\_Congestion\_Delays\_in\_the\_Aviation\_Network](https://www.academia.edu/66526198/Assessing_Interdependencies_and_Congestion_Delays_in_the_Aviation_Network)
+[https://arxiv.org/abs/2502.04233](https://arxiv.org/abs/2502.04233)
+[https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/](https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/)
+[https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/](https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/)
