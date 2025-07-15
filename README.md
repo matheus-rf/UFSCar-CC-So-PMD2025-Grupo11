@@ -56,7 +56,7 @@ Um objetivo operacional crítico seria a análise de performance e confiabilidad
 
 ## 4. Fluxograma Minimundo
 
-![Fluxograma Minimundo](./images/fluxograma.png) 
+![Fluxograma Minimundo](./images/fluxograma_PMD.png) 
 
 ---
 
