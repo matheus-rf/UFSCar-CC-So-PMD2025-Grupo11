@@ -33,8 +33,6 @@ Para alcançar esses objetivos, as consultas que devemos implementar foram organ
 
 ## 2. Tecnologias Escolhidas
 
-## 2. Tecnologias Escolhidas
-
 Para a construção deste projeto, foram utilizadas duas tecnologias centrais: Apache Spark e Neo4j. Cada uma delas desempenhou um papel específico no pipeline de dados, contribuindo para lidar com o volume expressivo de registros e com a complexidade inerente à análise de redes de voos.
 
 O Apache Spark foi escolhido como motor de processamento por sua capacidade de operar com dados em larga escala de forma distribuída e eficiente. Através de sua interface em PySpark, foi possível realizar leituras de arquivos no formato Parquet, aplicar transformações, fazer junções entre datasets e eliminar registros inconsistentes com desempenho muito superior ao de abordagens tradicionais baseadas em pandas, por exemplo. Sua arquitetura in-memory e suporte a paralelismo tornaram possível processar milhões de registros mantendo a interatividade e a escalabilidade necessárias para testes e ajustes durante o desenvolvimento.
