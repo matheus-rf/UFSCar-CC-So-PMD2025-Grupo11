@@ -239,7 +239,7 @@ RETURN path
 LIMIT 5;
 ```
 ![c7](./images/c7.png) 
-![c7_pt2](./images/c7_pt.png) 
+![c7_pt2](./images/c7_pt2.png) 
 
 
 
