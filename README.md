@@ -105,6 +105,9 @@ ORDER BY avg_total_delay DESC
 LIMIT 10;
 ```
 
+![c1](./images/c1.png) 
+
+
 **O que faz?**
 - Analisa todos os voos e calcula a média de atraso de partida e chegada para cada companhia aérea.
 - Combina os dois atrasos em uma média total para ranking mais preciso.
@@ -131,6 +134,9 @@ RETURN origin.code as airport_code,
 ORDER BY avg_total_delay DESC
 LIMIT 10;
 ```
+
+![c2](./images/c2.png) 
+
 
 **O que faz?**
 - Identifica os aeroportos com maiores problemas de atraso baseado nos voos que partem deles.
@@ -176,6 +182,8 @@ RETURN a.code AS airport_code,
 ORDER BY total_connections DESC
 LIMIT 10;
 ```
+![c4](./images/c4.png) 
+
 
 **O que faz?**
 - Mede o volume de tráfego aéreo baseado no número total de voos (não destinos únicos).
@@ -198,6 +206,9 @@ RETURN a.code AS airport_code,
 ORDER BY total_connections ASC;
 ```
 
+![c5](./images/c5.png) 
+
+
 **O que faz?**
 - Identifica aeroportos com baixa conectividade (Menos de 100 voos).
 - Útil para identificar aeroportos regionais ou isolados na rede.
@@ -212,6 +223,7 @@ MATCH path = (origin:Airport {code: "IND"})-[:FLIGHT*2..3]->(dest:Airport {code:
 RETURN path
 LIMIT 5;
 ```
+![c6](./images/c6.png) 
 
 **O que faz?**
 - Encontra rotas indiretas entre dois aeroportos específicos (IND → MSP).
@@ -226,6 +238,10 @@ WHERE NONE(n IN nodes(path) WHERE n.code = "ORD")
 RETURN path
 LIMIT 5;
 ```
+![c7](./images/c7.png) 
+![c7_pt2](./images/c7_pt.png) 
+
+
 
 **O que faz?**
 - Verifica se ainda é possível viajar entre dois aeroportos caso um hub importante seja fechado.
