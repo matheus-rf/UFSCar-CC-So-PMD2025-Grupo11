@@ -165,16 +165,15 @@ LIMIT 10;
 
 ```cypher
 MATCH (a:Airport)
-OPTIONAL MATCH (a)-[out:FLIGHT]->()
-OPTIONAL MATCH ()-[in:FLIGHT]->(a)
-RETURN 
-  a.code as airport_code,
-  a.name as airport_name,
-  a.city as city,
-  count(out) as outbound_flights,
-  count(in) as inbound_flights,
-  (count(out) + count(in)) as total_flights
-ORDER BY total_flights DESC
+WITH a, 
+     COUNT { (a)-[:FLIGHT]->() } AS outgoing,
+     COUNT { ()-[:FLIGHT]->(a) } AS incoming
+WITH a, outgoing + incoming AS total_connections
+RETURN a.code AS airport_code,
+       a.name AS airport_name,
+       a.city AS city,
+       total_connections
+ORDER BY total_connections DESC
 LIMIT 10;
 ```
 
@@ -187,23 +186,20 @@ LIMIT 10;
 
 ```cypher
 MATCH (a:Airport)
-OPTIONAL MATCH (a)-[:FLIGHT]->(dest:Airport)
-OPTIONAL MATCH (origin:Airport)-[:FLIGHT]->(a)
-WITH a,
-     count(DISTINCT dest) as outgoing_connections,
-     count(DISTINCT origin) as incoming_connections
-WITH a,
-     outgoing_connections + incoming_connections as total_connections
-WHERE total_connections <= 6
-RETURN a.code as airport_code,
-       a.name as airport_name,
-       a.city as city,
+WITH a, 
+     COUNT { (a)-[:FLIGHT]->() } AS outgoing,
+     COUNT { ()-[:FLIGHT]->(a) } AS incoming
+WITH a, outgoing + incoming AS total_connections
+WHERE total_connections <= 150
+RETURN a.code AS airport_code,
+       a.name AS airport_name,
+       a.city AS city,
        total_connections
 ORDER BY total_connections ASC;
 ```
 
 **O que faz?**
-- Identifica aeroportos com baixa conectividade (6 ou menos conexões únicas).
+- Identifica aeroportos com baixa conectividade (Menos de 100 voos).
 - Útil para identificar aeroportos regionais ou isolados na rede.
 - Pode indicar oportunidades de expansão ou áreas mal servidas.
 
@@ -214,7 +210,6 @@ ORDER BY total_connections ASC;
 ```cypher
 MATCH path = (origin:Airport {code: "IND"})-[:FLIGHT*2..3]->(dest:Airport {code: "MSP"})
 RETURN path
-ORDER BY length(path) ASC
 LIMIT 5;
 ```
 
@@ -226,16 +221,15 @@ LIMIT 5;
 ### Rotas Alternativas Excluindo Aeroporto Específico
 
 ```cypher
-MATCH path = (origin:Airport {code: "IND"})-[:FLIGHT*1..4]->(dest:Airport {code: "BOI"})
-AND none(airport in nodes(path)[1..-1] WHERE airport.code = "MSP")
+MATCH path = (origin:Airport {code: "FSD"})-[:FLIGHT*1..3]->(dest:Airport {code: "STL"})
+WHERE NONE(n IN nodes(path) WHERE n.code = "ORD")
 RETURN path
-ORDER BY length(path) ASC
 LIMIT 5;
 ```
 
 **O que faz?**
 - Verifica se ainda é possível viajar entre dois aeroportos caso um hub importante seja fechado.
-- Exclui o aeroporto MSP de todas as rotas possíveis entre IND e BOI.
+- Exclui o aeroporto ORD de todas as rotas possíveis entre FSD e STL.
 - Simula cenários de contingência para planejamento de resiliência da malha aérea.
 
 ## 7. Referências
@@ -245,4 +239,4 @@ LIMIT 5;
 * [https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/](https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/)
 * [https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/](https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/)
 * [https://support.neo4j.com/s/article/16094506528787-Support-resources-and-FAQ-for-Aura-Free-Tier](https://support.neo4j.com/s/article/16094506528787-Support-resources-and-FAQ-for-Aura-Free-Tier)
-* [https://www.flightconnections.com/pt/](https://www.flightconnections.com/pt/)
+* [https://www.flightconnections.com/pt/](https://www.flightconnections.com)
