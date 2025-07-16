@@ -2,7 +2,7 @@
 
 **Disciplina:** Processamento Massivo de dados
 **Dra. Sahudy Montenegro González**
-**Fase intermediária I**
+**Fase Final**
 
 **Matheus Rodrigues Ferreira - 813919**
 **Vinícius Fernandes Terra Silva - 814146**
