@@ -47,6 +47,8 @@ A combinação dessas duas ferramentas foi estratégica para permitir tanto o pr
   [https://www.kaggle.com/datasets/usdot/flight-delays?select=flights.csv](https://www.kaggle.com/datasets/usdot/flight-delays?select=flights.csv)
   Contém: data, códigos de aeroporto de origem e destino, companhia, número do voo, horários programados e reais de partida/chegada, código de aeronave, atraso em minutos, entre outras colunas.
 
+* **Dados utilizados:** O dataset de voos foi transformado em parquet visando melhorar a eficiencia do projeto. Assim, a pasta com os dados utilizados pode ser encontrada em [https://drive.google.com/drive/folders/1zl3dgcPxWPMC1y9bIIQyvoDIV-Q0SN4x?usp=sharing](https://drive.google.com/drive/folders/1zl3dgcPxWPMC1y9bIIQyvoDIV-Q0SN4x?usp=sharing)
+
 ## 4. Fluxograma Minimundo
 
 ![Fluxograma Minimundo](./images/fluxograma_PMD.png) 
