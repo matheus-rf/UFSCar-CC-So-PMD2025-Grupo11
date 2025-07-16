@@ -167,6 +167,9 @@ LIMIT 10;
 - Conta conexões de entrada e saída para determinar a conectividade total.
 - Revela os aeroportos mais estratégicos para conexões na rede aérea.
 
+**Considerações**
+- Essa consulta se mostrou ineficiente pois usa OPTIONAL MATCH e DISTINCT, de forma que ela realiza diversas operações cartesianas muito custosas em um banco de dados de milhões de relacionamentos como o do projeto em questão.
+
 ### 10 Aeroportos Mais Movimentados (Maior Número de Voos)
 
 ```cypher
@@ -245,7 +248,7 @@ LIMIT 5;
 
 **O que faz?**
 - Verifica se ainda é possível viajar entre dois aeroportos caso um hub importante seja fechado.
-- Exclui o aeroporto ORD de todas as rotas possíveis entre FSD e STL.
+- Exemplo: Exclui o aeroporto ORD de todas as rotas possíveis entre FSD e STL.
 - Simula cenários de contingência para planejamento de resiliência da malha aérea.
 
 ## 7. Referências
