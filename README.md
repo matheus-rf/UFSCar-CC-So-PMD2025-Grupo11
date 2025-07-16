@@ -1,68 +1,248 @@
-# Análise de cancelamento de voos
+# Universidade Federal de São Carlos - UFSCar Sorocaba Bacharelado em Ciência da Computação
 
-**Universidade Federal de São Carlos - UFSCar Sorocaba**
-**Bacharelado em Ciência da Computação**
+**Disciplina:** Processamento Massivo de dados
+**Dra. Sahudy Montenegro González**
+**Fase intermediária I**
 
-**Disciplina:** Processamento Massivo de Dados
-**Professora:** Dra. Sahudy Montenegro González
-
-**Fase Intermediária I**
-
-**Autores:**
-
-* Matheus Rodrigues Ferreira - 813919
-* Vinícius Fernandes Terra Silva - 814146
-
----
+**Matheus Rodrigues Ferreira - 813919**
+**Vinícius Fernandes Terra Silva - 814146**
 
 ## 1. Objetivos
 
-O objetivo deste projeto prático é explorar e analisar atributos de atrasos de voos comerciais nos Estados Unidos, a partir do dataset “2015 Flight Delays and Cancellations” disponível no Kaggle.
-Essa análise é pertinente pois visa transformar dados de aviação civil em insights estratégicos e operacionais que permitam otimizar operações, reduzir custos e melhorar a experiência do passageiro através da análise inteligente de conectividade aérea.
-O primeiro grande objetivo seria mapear e visualizar toda a rede de conectividade aérea, permitindo que gestores aeroportuários, companhias aéreas e órgãos reguladores entendam como os aeroportos se conectam, quais são os principais hubs, onde existem gargalos e como o tráfego flui pela rede. Este mapeamento seria fundamental para identificar oportunidades de novas rotas baseadas em análise de gaps de conectividade, onde passageiros precisam fazer conexões desnecessárias ou onde existe demanda não atendida entre pares de cidades.
-Um objetivo operacional crítico seria a análise de performance e confiabilidade, permitindo identificar padrões de atrasos, cancelamentos e problemas operacionais que se propagam pela rede. O sistema permitiria simular cenários de contingência, respondendo perguntas como "se o aeroporto de Atlanta fechar por condições climáticas, quantas rotas indiretas ficam comprometidas?" ou "qual seria o impacto na rede se uma determinada companhia aérea suspender operações?". Esta capacidade de análise de cascata seria valiosa para o planejamento de contingência e gestão de crises.
+Este projeto prático tem como objetivo analisar atrasos e padrões de conectividade na aviação comercial dos Estados Unidos, utilizando como base o conjunto de dados “2015 Flight Delays and Cancellations”, disponibilizado no Kaggle. Através de técnicas de processamento massivo de dados, buscamos extrair insights estratégicos e operacionais relevantes para companhias aéreas, gestores aeroportuários e órgãos reguladores.
 
-**Consultas principais:**
+Entre os objetivos principais estão:
 
-### Análises de Performance
+* Mapeamento da rede aérea nacional: representar aeroportos e voos como uma rede, permitindo identificar hubs, gargalos logísticos e rotas alternativas.
+* Análise de performance operacional: avaliar atrasos e cancelamentos para identificar companhias, rotas ou aeroportos mais problemáticos.
+* Simulação de cenários de contingência: prever os impactos em cascata na malha aérea caso eventos críticos ocorram (ex: fechamento de um aeroporto central como Atlanta ou a suspensão de operações por parte de uma companhia aérea).
 
-* Ranking de companhias por atraso médio e taxa de cancelamento
-* Identificação de aeroportos problemáticos (maior concentração de atrasos)
+Para alcançar esses objetivos, as consultas que devemos implementar foram organizadas em duas grandes categorias:
 
-### Análises de Rede
+### Análises de Performance:
 
-* Identificação de aeroportos hub (maior conectividade)
-* Buscar por todas as rotas ou conexões indiretas (voos com escalas)
-* Aeroportos isolados ou mal conectados (ilhas)
-* Se o aeroporto X for fechado ainda podemos sair do aeroporto A e chegar no B?
+* Ranking de companhias por atraso médio;
+* Ranking de aeroportos por atraso médio.
 
----
+### Análises de Rede (grafo):
+
+* Identificação de aeroportos hub com maior grau de conectividade;
+* Descoberta de rotas indiretas e conexões;
+* Detecção de aeroportos isolados (ilhas);
+* Simulações de viabilidade de rotas após fechamento de um aeroporto (cenários de falha).
 
 ## 2. Tecnologias Escolhidas
 
-**Apache Spark:** utilizaremos o Apache Spark como motor principal de processamento distribuído para **ingerir, limpar e transformar o grande volume de registros do dataset de voos**. Com APIs em PySpark, conseguiremos carregar tensões de milhões de linhas em memória distribuída, tratar valores faltantes, ajustar fusos e computar agregações complexas (por exemplo, **médias e percentuais de atraso**) de forma eficiente e escalável. Sua capacidade de paralelizar tarefas em clusters torna-o ideal para o estágio de **ETL** (Extração, Transformação e Carga) deste projeto, garantindo desempenho mesmo diante de datasets crescentes.
+## 2. Tecnologias Escolhidas
 
-**Neo4j:** o Neo4j será o repositório de dados em grafo no qual iremos modelar os nossos aeroportos, companhias aéreas, aeronaves e rotas como elementos interconectados. O **paradigma de grafo reflete naturalmente a rede de voos**, permitindo consultas de vizinhança (por exemplo, **“quais companhias operam entre X e Y?”**), **métricas de centralidade** (identificação de hubs) e detecção de sub-redes críticas. A linguagem Cypher facilita a formulação dessas queries e o próprio Neo4j oferece indexação e otimização específicas para grafos, garantindo respostas rápidas mesmo em estruturas densas.
+Para a construção deste projeto, foram utilizadas duas tecnologias centrais: Apache Spark e Neo4j. Cada uma delas desempenhou um papel específico no pipeline de dados, contribuindo para lidar com o volume expressivo de registros e com a complexidade inerente à análise de redes de voos.
 
----
+O Apache Spark foi escolhido como motor de processamento por sua capacidade de operar com dados em larga escala de forma distribuída e eficiente. Através de sua interface em PySpark, foi possível realizar leituras de arquivos no formato Parquet, aplicar transformações, fazer junções entre datasets e eliminar registros inconsistentes com desempenho muito superior ao de abordagens tradicionais baseadas em pandas, por exemplo. Sua arquitetura in-memory e suporte a paralelismo tornaram possível processar milhões de registros mantendo a interatividade e a escalabilidade necessárias para testes e ajustes durante o desenvolvimento.
+
+Já o Neo4j foi adotado como solução de armazenamento e análise final dos dados transformados. Por ser um banco orientado a grafos, sua estrutura se mostrou ideal para representar a malha aérea como uma rede de nós e relacionamentos, refletindo de forma natural as conexões entre aeroportos por meio de voos. Isso possibilitou a execução de consultas mais intuitivas e eficientes para identificar aeroportos centrais, trajetos possíveis, rotas indiretas e estruturas de rede críticas. A linguagem Cypher permitiu expressar essas consultas com clareza, além de facilitar a criação e manipulação dos dados no banco. Como veremos na seção 6 de análise de dados, o volume de dados ultrapassa os limites da versão gratuita da nuvem do Neo4j, por conta disso optou-se pela instalação local do sistema, garantindo liberdade total para carga e consultas.
+
+A combinação dessas duas ferramentas foi estratégica para permitir tanto o processamento de dados em massa quanto a modelagem rica e navegável da rede aérea resultante.
 
 ## 3. Fontes de Dados
 
-* Dataset “2015 Flight Delays and Cancellations”
-  Disponível em: [https://www.kaggle.com/datasets/usdot/flight-delays?select=flights.csv](https://www.kaggle.com/datasets/usdot/flight-delays?select=flights.csv)
+* **Dataset:** “2015 Flight Delays and Cancellations”
+  [https://www.kaggle.com/datasets/usdot/flight-delays?select=flights.csv](https://www.kaggle.com/datasets/usdot/flight-delays?select=flights.csv)
   Contém: data, códigos de aeroporto de origem e destino, companhia, número do voo, horários programados e reais de partida/chegada, código de aeronave, atraso em minutos, entre outras colunas.
-
----
 
 ## 4. Fluxograma Minimundo
 
 ![Fluxograma Minimundo](./images/fluxograma_PMD.png) 
 
----
+## 5. Modelagem dos dados
 
-## 5. Referências
+A modelagem dos dados foi orientada pelos objetivos principais do projeto, especialmente a análise da conectividade entre aeroportos e o rastreamento de padrões de atraso e fluxo aéreo. Diante disso, optou-se por uma estrutura de grafo em que os aeroportos são representados como nós, e os voos como relacionamentos direcionados entre esses nós. Essa abordagem privilegia a análise estrutural da rede, facilitando consultas sobre caminhos, centralidade e robustez da malha aérea e deve auxiliar principalmente as consultas da categoria de Análises de Rede.
 
-* [Assessing Interdependencies and Congestion Delays in the Aviation Network](https://www.academia.edu/66526198/Assessing_Interdependencies_and_Congestion_Delays_in_the_Aviation_Network)
-* [arXiv: Graph Neural Networks for Aviation Delay Prediction](https://arxiv.org/abs/2502.04233)
-* [Suitability of Graph Database Technology for the Analysis of Spatio-Temporal Data](https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/)
-* [Driving Predictive Analytics with Neo4j](https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/)
+Cada aeroporto foi modelado como um nó com atributos descritivos básicos, como código IATA, nome, cidade, estado e país (neste caso, fixado como "USA"). A escolha por essa granularidade buscou um equilíbrio entre representatividade e simplicidade, já que o foco está nas conexões entre os terminais e não em detalhes operacionais mais finos.
+
+Os voos, por sua vez, foram representados como relacionamentos do tipo FLIGHT entre aeroportos de origem e destino. Esses relacionamentos carregam os principais atributos operacionais do voo, incluindo a data, a companhia aérea responsável, os horários programados e reais de partida e chegada, além dos atrasos em minutos. Também foram mantidos campos como tempo estimado de voo e tempo real transcorrido, que podem auxiliar em análises futuras sobre eficiência e regularidade.
+
+## 6. Extração, Transformação e Carga (ETL)
+
+O primeiro passo do projeto foi realizar uma análise exploratória do dataset, que revelou os seguintes volumes de dados:
+
+* **AIRLINES:** 14
+* **AIRPORTS:** 322
+* **FLIGHTS:** 5.819.079
+
+Esses números evidenciam o caráter massivo do dataset, o que reforça a escolha por ferramentas escaláveis como Apache Spark para o processamento e Neo4j para a persistência estruturada em grafos. Devido às limitações da versão gratuita do Neo4j Aura (com um teto de 200.000 nós e 400.000 relacionamentos), optamos por uma instalação local do banco, o que nos deu liberdade total para modelar e persistir toda a rede aérea. Também, devido a limitações de conexões do Databricks na versão gratuita, não foi possível fazer a conexão com o banco local, então optamos por utilizar o Apache Spark localmente também.
+
+### Limpeza e Transformação
+
+Durante a etapa de pré-processamento utilizamos pyspark para utilizar as funções do Apache Spark e constatamos que o dataset estava razoavelmente limpo, sem duplicações explícitas. No entanto, identificamos colunas com grande quantidade de valores nulos e pouca utilidade analítica, as quais foram descartadas para otimizar o volume e a performance de ingestão, já que mais de 80% dos seus dados eram nulos.
+
+No caso das linhas com valores nulos em campos essenciais (como horários de voo ou códigos de aeroporto), optamos por removê-las. Essas representavam aproximadamente 2% do total, e a criação de modelos para imputação de dados seria inadequada, pois envolveria alto custo computacional e potencial viés analítico sem ganho proporcional.
+
+Por fim utilizamos o processamento em lotes para popular o banco de dados com os voos, pois devido ao tamanho do conjunto de dados, essa é a forma ideal de carregar o banco sem causar erros de memória.
+
+### Conexão com o Neo4j e carga
+
+Para fazer a conexão com o banco de dados foi utilizado a biblioteca oficial da Neo4j para conectar aplicações Python ao banco, sendo a conexão iniciada com `GraphDatabase.driver(uri, auth=(user, password))`. Para abstrair o código criamos a classe `AirportFlightSystem` que está localizada no arquivo `airport_flight_system.py`, sendo essa classe responsável por fazer a conexão de fato, testar se está conectado ao banco e configurar o banco criando índices para voos e aeroportos. Também, essa classe também é responsável por criar os voos entre os aeroportos, apagar o database e fechar a conexão. Dessa forma, foi possível fazer o carregamento do banco de dados utilizando a conexão entre Python e o Neo4j.
+
+# Consultas Cypher para Análise de Dados de Voos
+
+## Análise de Companhias Aéreas
+
+### Ranking das 10 Companhias com Maior Média de Atraso
+
+```cypher
+MATCH ()-[f:FLIGHT]->()
+WITH f.airline as airline, 
+     avg(f.departure_delay) as avg_departure_delay,
+     avg(f.arrival_delay) as avg_arrival_delay,
+     avg((f.departure_delay + f.arrival_delay) / 2.0) as avg_total_delay,
+     count(f) as total_flights
+RETURN airline, 
+       round(avg_departure_delay, 2) as avg_departure_delay_min,
+       round(avg_arrival_delay, 2) as avg_arrival_delay_min,
+       round(avg_total_delay, 2) as avg_combined_delay_min,
+       total_flights
+ORDER BY avg_total_delay DESC
+LIMIT 10;
+```
+
+**O que faz?**
+- Analisa todos os voos e calcula a média de atraso de partida e chegada para cada companhia aérea.
+- Combina os dois atrasos em uma média total para ranking mais preciso.
+- Retorna as 10 companhias com maiores atrasos, incluindo número total de voos para contexto.
+
+## Análise de Aeroportos
+
+### Ranking dos 10 Aeroportos com Maior Média de Atraso
+
+```cypher
+MATCH (origin:Airport)-[f:FLIGHT]->(dest:Airport)
+WITH origin,
+     avg(f.departure_delay) as avg_departure_delay,
+     avg(f.arrival_delay) as avg_arrival_delay,
+     avg((f.departure_delay + f.arrival_delay) / 2.0) as avg_total_delay,
+     count(f) as total_flights
+RETURN origin.code as airport_code,
+       origin.name as airport_name,
+       origin.city as city,
+       round(avg_departure_delay, 2) as avg_departure_delay_min,
+       round(avg_arrival_delay, 2) as avg_arrival_delay_min,
+       round(avg_total_delay, 2) as avg_combined_delay_min,
+       total_flights
+ORDER BY avg_total_delay DESC
+LIMIT 10;
+```
+
+**O que faz?**
+- Identifica os aeroportos com maiores problemas de atraso baseado nos voos que partem deles.
+- Calcula médias de atraso de partida e chegada para cada aeroporto de origem.
+- Útil para identificar gargalos operacionais na malha aérea.
+
+### 10 Aeroportos Mais Conectados (Hubs)
+
+```cypher
+MATCH (a:Airport)
+OPTIONAL MATCH (a)-[:FLIGHT]->(dest:Airport)
+OPTIONAL MATCH (origin:Airport)-[:FLIGHT]->(a)
+WITH a,
+     count(DISTINCT dest) as outgoing_connections,
+     count(DISTINCT origin) as incoming_connections
+WITH a,
+     outgoing_connections + incoming_connections as total_connections
+RETURN a.code as airport_code,
+       a.name as airport_name,
+       a.city as city,
+       total_connections
+ORDER BY total_connections DESC
+LIMIT 10;
+```
+
+**O que faz?**
+- Identifica os principais hubs aeroportuários baseado no número de destinos únicos conectados.
+- Conta conexões de entrada e saída para determinar a conectividade total.
+- Revela os aeroportos mais estratégicos para conexões na rede aérea.
+
+### 10 Aeroportos Mais Movimentados (Maior Número de Voos)
+
+```cypher
+MATCH (a:Airport)
+OPTIONAL MATCH (a)-[out:FLIGHT]->()
+OPTIONAL MATCH ()-[in:FLIGHT]->(a)
+RETURN 
+  a.code as airport_code,
+  a.name as airport_name,
+  a.city as city,
+  count(out) as outbound_flights,
+  count(in) as inbound_flights,
+  (count(out) + count(in)) as total_flights
+ORDER BY total_flights DESC
+LIMIT 10;
+```
+
+**O que faz?**
+- Mede o volume de tráfego aéreo baseado no número total de voos (não destinos únicos).
+- Diferencia entre voos de saída e chegada para análise detalhada.
+- Identifica os aeroportos com maior movimento operacional.
+
+### Aeroportos Mal Conectados (Ilhas)
+
+```cypher
+MATCH (a:Airport)
+OPTIONAL MATCH (a)-[:FLIGHT]->(dest:Airport)
+OPTIONAL MATCH (origin:Airport)-[:FLIGHT]->(a)
+WITH a,
+     count(DISTINCT dest) as outgoing_connections,
+     count(DISTINCT origin) as incoming_connections
+WITH a,
+     outgoing_connections + incoming_connections as total_connections
+WHERE total_connections <= 6
+RETURN a.code as airport_code,
+       a.name as airport_name,
+       a.city as city,
+       total_connections
+ORDER BY total_connections ASC;
+```
+
+**O que faz?**
+- Identifica aeroportos com baixa conectividade (6 ou menos conexões únicas).
+- Útil para identificar aeroportos regionais ou isolados na rede.
+- Pode indicar oportunidades de expansão ou áreas mal servidas.
+
+## Análise de Rotas
+
+### Buscar Rotas Indiretas Entre Dois Aeroportos
+
+```cypher
+MATCH path = (origin:Airport {code: "IND"})-[:FLIGHT*2..3]->(dest:Airport {code: "MSP"})
+RETURN path
+ORDER BY length(path) ASC
+LIMIT 5;
+```
+
+**O que faz?**
+- Encontra rotas indiretas entre dois aeroportos específicos (IND → MSP).
+- Busca caminhos com 2-3 conexões para evitar rotas muito longas.
+- Ordena por número de conexões para mostrar as rotas mais eficientes primeiro.
+
+### Rotas Alternativas Excluindo Aeroporto Específico
+
+```cypher
+MATCH path = (origin:Airport {code: "IND"})-[:FLIGHT*1..4]->(dest:Airport {code: "BOI"})
+AND none(airport in nodes(path)[1..-1] WHERE airport.code = "MSP")
+RETURN path
+ORDER BY length(path) ASC
+LIMIT 5;
+```
+
+**O que faz?**
+- Verifica se ainda é possível viajar entre dois aeroportos caso um hub importante seja fechado.
+- Exclui o aeroporto MSP de todas as rotas possíveis entre IND e BOI.
+- Simula cenários de contingência para planejamento de resiliência da malha aérea.
+
+## 7. Referências
+
+* [https://www.academia.edu/66526198/Assessing\_Interdependencies\_and\_Congestion\_Delays\_in\_the\_Aviation\_Network](https://www.academia.edu/66526198/Assessing_Interdependencies_and_Congestion_Delays_in_the_Aviation_Network)
+* [https://arxiv.org/abs/2502.04233](https://arxiv.org/abs/2502.04233)
+* [https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/](https://towardsdatascience.com/suitability-of-graph-database-technology-for-the-analysis-of-spatio-temporal-data-6167dba64be8/)
+* [https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/](https://neo4j.com/blog/graph-data-science/driving-predictive-analytics-neo4j/)
+* [https://support.neo4j.com/s/article/16094506528787-Support-resources-and-FAQ-for-Aura-Free-Tier](https://support.neo4j.com/s/article/16094506528787-Support-resources-and-FAQ-for-Aura-Free-Tier)
+* [https://www.flightconnections.com/pt/](https://www.flightconnections.com/pt/)
