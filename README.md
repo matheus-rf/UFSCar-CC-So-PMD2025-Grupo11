@@ -1,10 +1,9 @@
 # Universidade Federal de São Carlos - UFSCar Sorocaba Bacharelado em Ciência da Computação
 
-**Disciplina:** Processamento Massivo de dados
-**Dra. Sahudy Montenegro González**
-**Fase Final**
+**Disciplina:** Processamento Massivo de dados\
+**Professora:** Dra. Sahudy Montenegro González
 
-**Matheus Rodrigues Ferreira - 813919**
+**Matheus Rodrigues Ferreira - 813919**\
 **Vinícius Fernandes Terra Silva - 814146**
 
 ## 1. Objetivos
