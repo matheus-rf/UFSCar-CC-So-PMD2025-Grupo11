@@ -5,7 +5,7 @@
 **Disciplina:** Processamento Massivo de dados\
 **Professora:** Dra. Sahudy Montenegro González
 
-#### Grupo 11
+### Grupo 11
 
 Integrantes:
 
