@@ -1,14 +1,10 @@
 # Projeto de Disciplina – Analise de voos usando spark e neo4j
-**Disciplina:** Processamento Massivo de dados\
-**Professora:** Dra. Sahudy Montenegro González
-
 ### Universidade Federal de São Carlos
 
-### Curso: Bacharelado em Ciência da Computação de Sorocaba
+**Curso** : Bacharelado em Ciência da Computação de Sorocaba
 
-### Disciplina: Processamento Massivo de Dados
-
-### Professora: Profa. Dra. Sahudy Montenegro González
+**Disciplina:** Processamento Massivo de dados\
+**Professora:** Dra. Sahudy Montenegro González
 
 #### Grupo 11
 
