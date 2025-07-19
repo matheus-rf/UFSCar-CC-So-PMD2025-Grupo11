@@ -1,10 +1,25 @@
-# Universidade Federal de São Carlos - UFSCar Sorocaba Bacharelado em Ciência da Computação
-
+# Projeto de Disciplina – Analise de voos usando spark e neo4j
 **Disciplina:** Processamento Massivo de dados\
 **Professora:** Dra. Sahudy Montenegro González
 
+### Universidade Federal de São Carlos
+
+### Curso: Bacharelado em Ciência da Computação de Sorocaba
+
+### Disciplina: Processamento Massivo de Dados
+
+### Professora: Profa. Dra. Sahudy Montenegro González
+
+#### Grupo 11
+
+Integrantes:
+
 **Matheus Rodrigues Ferreira - 813919**\
 **Vinícius Fernandes Terra Silva - 814146**
+
+Resumo:
+
+Este projeto analisa atrasos e conexões na aviação dos EUA utilizando Apache Spark para o processamento massivo dos dados e Neo4j para modelagem e consulta em grafo. Através de transformações e análises, identifica-se companhias com maiores atrasos, aeroportos mais conectados e simulações de cenários de falha na malha aérea. O foco é extrair insights operacionais a partir de mais de 5 milhões de voos registrados em 2015.
 
 ## 1. Objetivos
 
@@ -59,6 +74,8 @@ A modelagem dos dados foi orientada pelos objetivos principais do projeto, espec
 Cada aeroporto foi modelado como um nó com atributos descritivos básicos, como código IATA, nome, cidade, estado e país (neste caso, fixado como "USA"). A escolha por essa granularidade buscou um equilíbrio entre representatividade e simplicidade, já que o foco está nas conexões entre os terminais e não em detalhes operacionais mais finos.
 
 Os voos, por sua vez, foram representados como relacionamentos do tipo FLIGHT entre aeroportos de origem e destino. Esses relacionamentos carregam os principais atributos operacionais do voo, incluindo a data, a companhia aérea responsável, os horários programados e reais de partida e chegada, além dos atrasos em minutos. Também foram mantidos campos como tempo estimado de voo e tempo real transcorrido, que podem auxiliar em análises futuras sobre eficiência e regularidade.
+
+![modelagem](./images/modelagem.png) 
 
 ## 6. Extração, Transformação e Carga (ETL)
 
